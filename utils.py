@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from torch.utils.data import Dataset,DataLoader
 from sklearn.metrics import det_curve,RocCurveDisplay,auc,roc_curve
 import librosa
+from torch import Tensor
 
 def convert_to_flac(input_dir):
     # Loop through files in the input directory
