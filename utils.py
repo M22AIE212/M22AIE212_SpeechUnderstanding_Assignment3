@@ -2,6 +2,7 @@
 import os
 import glob
 import subprocess
+from dataclasses import dataclass
 
 def convert_to_flac(input_dir):
     # Loop through files in the input directory
@@ -39,3 +40,13 @@ class Dataset_eval(Dataset):
     x_inp = Tensor(X_pad)
     label = self.label[index]
     return x_inp, label
+
+@dataclass
+class Arguments:
+    la_model_path: str
+    df_model_path: str
+    eval: bool = True
+    la_eval_output: str = '/content/la_score.txt'
+    df_eval_output: str = '/content/df_score.txt'
+
+
