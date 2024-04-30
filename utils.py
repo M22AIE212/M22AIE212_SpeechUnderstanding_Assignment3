@@ -72,10 +72,23 @@ class Arguments:
     df_eval_output: str = '/content/df_score.txt'
 
 
-#computing EER
+## EER
 def compute_eer(truth, scores):
   frr, far, th = det_curve(truth, scores)
   abs_diffs = np.abs(frr - far)
   min_index = np.argmin(abs_diffs)
   eer = np.mean((frr[min_index], far[min_index]))
   return eer
+
+
+## ROC - AUC
+def plot_roc_curve_with_auc(truth, scores, la_or_df):
+  fpr, tpr, thresholds = roc_curve(truth,scores)
+  roc_auc = auc(fpr, tpr)
+  display = RocCurveDisplay(fpr=fpr, tpr=tpr, roc_auc=roc_auc,estimator_name='example estimator')
+  display.plot()
+  if la_or_df =='la':
+    plt.title("ROC curve with AUC score for LA model by M22AIE227")
+  else:
+    plt.title("ROC curve with AUC score for DF model by M22AIE227")
+  plt.show()
