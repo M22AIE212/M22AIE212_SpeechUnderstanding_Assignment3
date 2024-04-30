@@ -27,6 +27,26 @@ def pad(x, max_len=64600):
     padded_x = np.tile(x, (1, num_repeats))[:, :max_len][0]
     return padded_x
 
+def produce_evaluation_file(dataset,batch_size, model, device, save_path):
+    data_loader = DataLoader(dataset, batch_size=batch_size, shuffle=False, drop_last=False)
+    model.eval()
+
+    for batch_x,label in data_loader:
+      label_list = []
+      score_list = []
+      batch_size = batch_x.size(0)
+      batch_x = batch_x.to(device)
+      batch_out = model(batch_x)
+      batch_score = (batch_out[:, 1]).data.cpu().numpy().ravel()
+      # add outputs
+      label_list.extend(label)
+      score_list.extend(batch_score.tolist())
+      with open(save_path, 'a+') as fh:
+          for l, s in zip(label_list,score_list):
+              fh.write('{} {}\n'.format(l, s))
+      fh.close()
+    print('Scores are saved to {}'.format(save_path))
+
 class Dataset_eval(Dataset):
   def __init__(self, file_path, label):
     self.file_path = file_path
@@ -48,5 +68,3 @@ class Arguments:
     eval: bool = True
     la_eval_output: str = '/content/la_score.txt'
     df_eval_output: str = '/content/df_score.txt'
-
-
