@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+from model import Model ##imported from SSL_Anti-spoofing
 
 class ModelLoader:
     def __init__(self, args, device):
