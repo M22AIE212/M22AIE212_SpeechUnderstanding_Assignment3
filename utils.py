@@ -1,4 +1,3 @@
-%%writefile utils.py
 import os
 import glob
 import subprocess
