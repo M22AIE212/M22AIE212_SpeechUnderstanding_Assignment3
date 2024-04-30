@@ -1,4 +1,3 @@
-
 import os
 import glob
 import subprocess
@@ -55,7 +54,7 @@ def produce_evaluation_file(dataset,batch_size, model, device, save_path):
 class Dataset_eval(Dataset):
   def __init__(self, file_path, label):
     self.file_path = file_path
-    self.cut=64600//2 # take ~4//2 sec audio (64600//2 samples) ie 2 secs audio (32300 samples)
+    self.cut=64600 
     self.label  = label
   def __len__(self):
     return len(self.file_path)
