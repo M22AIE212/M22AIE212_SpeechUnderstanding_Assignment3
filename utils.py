@@ -1,8 +1,10 @@
+
 import os
 import glob
 import subprocess
 from dataclasses import dataclass
 from torch.utils.data import Dataset,DataLoader
+from sklearn.metrics import det_curve,RocCurveDisplay,auc,roc_curve
 
 def convert_to_flac(input_dir):
     # Loop through files in the input directory
@@ -10,7 +12,7 @@ def convert_to_flac(input_dir):
         print(file_path)
         current_file = file_path
         new_file = '_'.join(file_path.strip().split()).replace('(', '').replace(')', '')
-        
+
         # Rename file if it's not already in .flac format
         if '.flac' not in new_file:
             os.rename(current_file, new_file)
@@ -68,3 +70,12 @@ class Arguments:
     eval: bool = True
     la_eval_output: str = '/content/la_score.txt'
     df_eval_output: str = '/content/df_score.txt'
+
+
+#computing EER
+def compute_eer(truth, scores):
+  frr, far, th = det_curve(truth, scores)
+  abs_diffs = np.abs(frr - far)
+  min_index = np.argmin(abs_diffs)
+  eer = np.mean((frr[min_index], far[min_index]))
+  return eer
