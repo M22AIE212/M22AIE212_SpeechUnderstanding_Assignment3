@@ -1,3 +1,6 @@
+import sys
+sys.path.append("/content/SSL_Anti-spoofing/")
+
 import torch
 import torch.nn as nn
 from model import Model ##imported from SSL_Anti-spoofing
