@@ -1,5 +1,6 @@
 import sys
 sys.path.append("/content/SSL_Anti-spoofing/")
+sys.path.append("/content/M22AIE212_SpeechUnderstanding_Assignment3/")
 
 import os
 import pandas as pd
@@ -12,11 +13,11 @@ from torch.utils.data import Dataset,DataLoader
 from torch import Tensor
 import librosa
 
-from utils import convert_to_flac ,Dataset_eval,Arguments,produce_evaluation_file,compute_eer,plot_roc_curve_with_auc
+from utils import convert_to_flac ,CustomDataset,Arguments,produce_evaluation_file,compute_eer,plot_roc_curve_with_auc
 import glob
 from model_loader import ModelLoader
 
-if __name__ == "__main__" : 
+if __name__ == "__main__" :
   ## set device
   device = 'cuda' if torch.cuda.is_available() else 'cpu'
   batch_size = 2
@@ -49,10 +50,8 @@ if __name__ == "__main__" :
 
   model_loader = ModelLoader(args, device)
 
-
-
   # Evaluation Dataset
-  eval_set = Dataset_eval(df.file_path.tolist(), df.label.tolist())
+  eval_set = CustomDataset(df.file_path.tolist(), df.label.tolist())
 
   ## Inference - LA model
   model = model_loader.load_model('la')
@@ -66,12 +65,12 @@ if __name__ == "__main__" :
   la_df = pd.read_csv('/content/la_score.txt', sep = ' ', header = None)
   la_df.columns = ['actual', 'scores']
   la_eer = compute_eer(la_df.actual, la_df.scores)
-  print("EER (Equal Error Rate) for LA model : ", round(la_eer, 4))
+  print("Equal Error Rate = LA model : ", round(la_eer, 4))
   plot_roc_curve_with_auc(la_df.actual, la_df.scores, 'la')
 
   ## Evaluation - DF model
   df_df = pd.read_csv('/content/df_score.txt', sep = ' ', header = None)
   df_df.columns = ['truth', 'scores']
   df_eer = compute_eer(df_df.truth, df_df.scores)
-  print("EER (Equal Error Rate) for DF model : ", round(df_eer, 4))
+  print("Equal Error Rate = DF model : ", round(df_eer, 4))
   plot_roc_curve_with_auc(df_df.truth, df_df.scores, 'df')
