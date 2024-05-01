@@ -92,7 +92,7 @@ def plot_roc_curve_with_auc(truth, scores, la_or_df):
   display = RocCurveDisplay(fpr=fpr, tpr=tpr, roc_auc=roc_auc,estimator_name='example estimator')
   display.plot()
   if la_or_df =='la':
-    plt.title("ROC curve with AUC score for LA model by M22AIE227")
+    plt.title("ROC curve with AUC score for LA")
   else:
-    plt.title("ROC curve with AUC score for DF model by M22AIE227")
+    plt.title("ROC curve with AUC score for DF")
   plt.show()
