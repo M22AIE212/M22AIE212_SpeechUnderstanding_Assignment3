@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-def train_epoch(train_loader, model, lr,optim, device):
+def train_epoch(train_loader, model, lr,optimizer, device):
   running_loss = 0
   num_total = 0.0
   model.train()
