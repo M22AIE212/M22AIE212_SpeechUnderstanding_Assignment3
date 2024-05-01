@@ -52,7 +52,7 @@ def produce_evaluation_file(dataset,batch_size, model, device, save_path):
       fh.close()
     print('Scores are saved to {}'.format(save_path))
 
-class Dataset_eval(Dataset):
+class CustomDataset(Dataset):
   def __init__(self, file_path, label):
     self.file_path = file_path
     self.cut=64600 
@@ -73,7 +73,8 @@ class Arguments:
     eval: bool = True
     la_eval_output: str = '/content/la_score.txt'
     df_eval_output: str = '/content/df_score.txt'
-
+    lr : float = 0.000001
+    weight_decay : float =  0.0001
 
 ## EER
 def compute_eer(truth, scores):
