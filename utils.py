@@ -7,6 +7,7 @@ from sklearn.metrics import det_curve,RocCurveDisplay,auc,roc_curve
 import librosa
 from torch import Tensor
 import numpy as np
+import matplotlib.pyplot as plt
 
 def convert_to_flac(input_dir):
     # Loop through files in the input directory
